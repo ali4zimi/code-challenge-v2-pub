@@ -90,7 +90,7 @@ export function getDownloadDocumentURL(id: string): string {
 
 // --- only relevant for the bonus task ---
 export async function pingLegacyEndpoint(): Promise<string> {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/ping`);
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v2/ping`);
 
   if (!res.ok) {
     throw new Error("Legacy not Reached");
