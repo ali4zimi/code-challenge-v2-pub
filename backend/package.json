@@ -8,5 +8,9 @@
   },
   "devDependencies": {
     "nitropack": "latest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.799.0",
+    "formidable": "^3.5.4"
   }
 }
