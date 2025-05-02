@@ -4,13 +4,12 @@ import { findFolderById, generateFolder } from "~/utils/helpers";
 import { IFolder } from "~/utils/types";
 
 export default defineEventHandler(async (event) => {
-  
-
+  // Get form data from the request body
   const body = await readBody(event);
   const { parentId } = body as { parentId: string };
 
 
-
+  // Check if parentId is provided, otherwise throw an error
   if (!parentId) {
     throw createError({
       statusCode: 400,
@@ -19,8 +18,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const folderUrl = await findFolderById(parentId);
-  console.log("parentId", parentId);
-  console.log("folderUrl", folderUrl);
 
   let folder: IFolder = await generateFolder(folderUrl) // Generate a unique name for the folder
 

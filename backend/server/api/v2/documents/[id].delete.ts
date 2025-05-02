@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
   }
 
 
-  const matchingDocument = await findDocumentById(id);
+  const fileUrl = await findDocumentById(id);
 
-  if (!matchingDocument) {
+  if (!fileUrl) {
     throw createError({
       statusCode: 400,
       statusMessage: `Document "${id}" does not exist`,
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   await s3.send(
     new DeleteObjectCommand({
       Bucket: BUCKET_NAME,
-      Key: matchingDocument,
+      Key: fileUrl,
     })
   );
 

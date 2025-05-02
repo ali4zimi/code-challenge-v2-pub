@@ -5,8 +5,9 @@ import fs from "fs/promises";
 import { findFolderById, generateDocument } from "~/utils/helpers";
 import { IDocument } from "~/utils/types";
 
-
 export default defineEventHandler(async (event) => {
+  // I used the 'formidable' package to handle file uploads
+  // and parse the form data. The 'multiples' option is set to false to handle single file uploads.
   const form = formidable({ multiples: false });
 
   // Parse form data (including file and text fields)
@@ -22,16 +23,26 @@ export default defineEventHandler(async (event) => {
   const file = files.data?.[0];
   const parentId = fields.parentId?.[0] || "";
 
-  const parentPath = await findFolderById(parentId);
+  // Check if the parentId is provided
+  if (!parentId) {
+    throw createError({ statusCode: 400, statusMessage: "No parentId provided" });
+  }
 
-
+  // throw an error if no file is uploaded
   if (!file) {
     throw createError({ statusCode: 400, statusMessage: "No file uploaded" });
   }
 
+  // get the parent folder path using the parentId
+  const parentPath = await findFolderById(parentId);
+
   const fileBuffer = await fs.readFile(file.filepath);
 
-  let newDocument: IDocument = await generateDocument(parentPath, file.originalFilename);  // Generate a unique name for the file
+  // prerpare document object to be uploaded to s3
+  let newDocument: IDocument = await generateDocument(
+    parentPath,
+    file.originalFilename
+  ); 
 
   await s3.send(
     new PutObjectCommand({
@@ -50,5 +61,4 @@ export default defineEventHandler(async (event) => {
   return {
     message: `File "${newDocument}" uploaded successfully`,
   };
-
 });

@@ -5,6 +5,8 @@ import { s3, BUCKET_NAME } from '~/utils/s3Helpers';
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params as { id: string };
   
+  // Check if the id is provided
+  // If not, throw an error with a 400 status code and a message indicating the missing parameter
   if (!id) {
     throw createError({
       statusCode: 400,
@@ -12,19 +14,11 @@ export default defineEventHandler(async (event) => {
     });
   }
   
-  const listResult = await s3.send(
-    new ListObjectsV2Command({ Bucket: BUCKET_NAME })
-  );
 
-  const allKeys = listResult.Contents?.map(obj => obj.Key || "") ?? [];
 
-  const matchingDocument = allKeys.find(key => {
-    const parts = key.split("/").filter(Boolean);
-    const isFile = !key.endsWith("/");
-    return isFile && parts[parts.length - 1] === id;
-  });
+  const fileUrl = await findDocumentById(id);
 
-  if (!matchingDocument) {
+  if (!fileUrl) {
     throw createError({
       statusCode: 400,
       statusMessage: `Document "${id}" does not exist`,
@@ -35,7 +29,7 @@ export default defineEventHandler(async (event) => {
   const document = await s3.send(
     new GetObjectCommand({
       Bucket: BUCKET_NAME,
-      Key: matchingDocument,
+      Key: fileUrl,
     })
   );
 
