@@ -48,12 +48,16 @@ services:
       - 8002:5432
 
 
-  legacy-backend:
-    build:
-      dockerfile: Dockerfile
-      context: legacy-backend
-    ports:
-      - 8003:8003
-    expose:
-      - 8003
-    restart: always
+
+  # No longer used since we are using the backend service to run the legacy backend
+  # but we keep it here for reference in case we need to run it again.
+
+  # legacy-backend:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: legacy-backend
+  #   ports:
+  #     - 8003:8003
+  #   expose:
+  #     - 8003
+  #   restart: always
