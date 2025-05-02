@@ -1,10 +1,12 @@
 # <img src="./frontend/public/favicon.png" height="22pt"> CoCrafter Code Challenge v2
 
-This project is a backend mini app built with Node.js (NitroJS) that integrates with a mock S3 storage service. It was developed as part of a coding challenge.
+This project includes a backend which was asked in the challenge description. The backend is designed in `nitrojs`.
+
+Thank you for putting together this interesting and amazing challenge. I quite enjoyed it. 😊
 
 ## Time Spent
 
-Approximately **half a day**.
+For writing the code logic it took me approximately **half a day**. However, I have been reading about the `s3mock` during the week while I was traveling. Also, it was my first time working with that, but it was fun.
 
 ## How I Approached the Problem
 
@@ -15,14 +17,13 @@ Approximately **half a day**.
 
 ##  Technical Decisions
 
-- The legacy code suggested a Python backend, but I chose **Node.js with NitroJS** for flexibility and familiarity.
-- Ran the mock S3 service in a Docker container.
-- Started the backend separately with hot reload enabled for faster development.
+- Choosing a backend framework was a bit challenging. Based on the legacy-backend folder, it seemed the original backend might have been written in Python. However, I chose to implement it in Node.js using NitroJS, which I’m familiar with.
+- I ran the mock S3 container separately and kept the backend running on its own with hot reload enabled for a smoother development workflow.
 - Used **Postman** to test all API endpoints during development.
 
 ## Most Difficult Part
 
-The biggest challenge was handling **CORS** when connecting the frontend to the backend. NitroJS didn’t have a plug-and-play solution, so I spent a few hours debugging and eventually solved it by implementing a **custom middleware** to handle `CORS preflight` request.
+The biggest challenge was handling **CORS** when connecting the frontend to the backend. So, I spent a few hours debugging and eventually solved it by implementing a **custom middleware** to handle `CORS preflight` request.
 
 ## If This Were a Production Feature
 
